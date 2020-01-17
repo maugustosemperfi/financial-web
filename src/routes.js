@@ -1,11 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Login from './pages/Login';
 
 export default function Routes() {
   return (
     <Router>
       <Switch>
-        <Route path="/" exact component={Main} />
+        <Route path="/" component={Login} />
       </Switch>
     </Router>
   );
