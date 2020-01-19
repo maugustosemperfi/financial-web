@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
-import Button from '@kiwicom/orbit-components/lib/Button';
+import Button from '@material-ui/core/Button';
+import Fab from '@material-ui/core/Fab';
 
 export const LoginContainer = styled.div`
   width: 100%;
@@ -47,38 +48,9 @@ export const FlexRowCenteredContainer = styled.div`
 
 export const SignUpButton = styled(Button)`
   color: #fff !important;
-  box-shadow: inset 0 0 0 1px #fff;
-`;
-
-export const FabButton = styled.button`
-  background-color: #fff;
-  box-sizing: border-box;
-  position: relative;
-  user-select: none;
-  cursor: pointer;
-  outline: 0;
-  border: none;
-  display: inline-block;
-  white-space: nowrap;
-  text-decoration: none;
-  vertical-align: baseline;
-  text-align: center;
-  margin: 0;
-  min-width: 64px;
-  line-height: 36px;
-  padding: 0 16px;
-  border-radius: 4px;
-  overflow: visible;
-  transform: translate3d(0, 0, 0);
-  transition: background 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
-  min-width: 0;
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  padding: 0;
-  flex-shrink: 0;
-  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
-  margin-right: 8px;
+  background-color: transparent !important;
+  border: 1px solid #fff !important;
+  box-shadow: none !important;
 `;
 
 export const Spacer = styled.div.attrs(props => ({ paddingTop: props.paddingTop || 15 }))`
