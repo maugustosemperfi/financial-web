@@ -1,24 +1,13 @@
-import { FormControlLabel, TextField } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
-import Fab from '@material-ui/core/Fab';
+import { Button, Fab, FormControlLabel, FormGroup, TextField, Checkbox } from '@material-ui/core';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { FaFacebookF, FaGooglePlusG, FaLinkedinIn } from 'react-icons/fa';
 import FlexContainer from 'react-styled-flexbox';
 import * as yup from 'yup';
-import {
-  DontHaveAccountContainer,
-  FlexRowCenteredContainer,
-  LoginCard,
-  LoginContainer,
-  SignInContainer,
-  SignUpButton,
-  Spacer,
-} from './style';
+import { FlexRowCenteredContainer, HasAccountContainer, SignUpCard, SignUpContainer, Spacer, BackToLoginButton } from './style';
 import { Link } from 'react-router-dom';
 
-const signInFormSchema = yup.object().shape({
+const signUpFormSchema = yup.object().shape({
   email: yup
     .string()
     .email()
@@ -27,26 +16,29 @@ const signInFormSchema = yup.object().shape({
     .string()
     .min(8)
     .required(),
-  rememberMe: yup.boolean(),
+  confirmPassword: yup
+    .string()
+    .min(8)
+    .required(),
 });
 
-export default function Login() {
+export default function SignUp() {
   const { register, handleSubmit, control, errors } = useForm({
-    validationSchema: signInFormSchema,
+    validationSchema: signUpFormSchema,
   });
 
-  const signIn = data => {
+  const signUp = data => {
     console.log(data);
   };
 
   return (
-    <LoginCard>
-      <SignInContainer>
+    <SignUpCard>
+      <SignUpContainer>
         <h3>
           <span style={{ color: '#46bb88' }}>Financial</span>Web
         </h3>
         <Spacer paddingTop={'30px'}></Spacer>
-        <h1 style={{ textAlign: 'center', color: '#0dca78', fontSize: '36px' }}>Sign in to Account</h1>
+        <h1 style={{ textAlign: 'center', color: '#0dca78', fontSize: '36px' }}>Sign Up</h1>
         <Spacer paddingTop={'15px'}></Spacer>
         <FlexRowCenteredContainer>
           <hr style={{ backgroundColor: '#0dca78', height: '3px', width: '50px', border: 0, borderRadius: '10px' }}></hr>
@@ -64,13 +56,7 @@ export default function Login() {
           </Fab>
         </FlexRowCenteredContainer>
         <Spacer paddingTop={'30px'}></Spacer>
-        <FlexRowCenteredContainer>
-          <h3 style={{ color: '#b8b8b8' }}>or use your email account</h3>
-        </FlexRowCenteredContainer>
-
-        <Spacer paddingTop={'30px'}></Spacer>
-
-        <form onSubmit={handleSubmit(signIn)}>
+        <FormGroup onSubmit={handleSubmit(signUp)}>
           <FlexRowCenteredContainer>
             <div style={{ width: '50%' }}>
               <Controller
@@ -118,18 +104,24 @@ export default function Login() {
           <Spacer paddingTop={'15px'}></Spacer>
 
           <FlexRowCenteredContainer>
-            <FlexContainer justifySpaceBetween={true} style={{ width: '50%' }}>
-              <div>
-                <FormControlLabel
-                  name="rememberMe"
-                  control={<Checkbox checked={register.rememberMe} name="rememberMe" ref={register} label="Remember me" />}
-                  label="Remember me"
-                />
-                {/* <Controller as={} control={control} defaultValue={false}></Controller> */}
-                {/* <Checkbox name="rememberMe" ref={register} label="Remember me" onChange={() => } /> */}
-              </div>
-              <Button>Forgot password?</Button>
-            </FlexContainer>
+            <div style={{ width: '50%' }}>
+              <Controller
+                as={
+                  <TextField
+                    error={!!errors.password}
+                    name="confirmPassword"
+                    label="Confirm Password"
+                    type="password"
+                    ref={register({ required: true })}
+                    variant="outlined"
+                    helperText={errors.confirmPassword && errors.confirmPassword.message}
+                    fullWidth={true}
+                  />
+                }
+                name="confirmPassword"
+                control={control}
+              />
+            </div>
           </FlexRowCenteredContainer>
 
           <Spacer paddingTop={'30px'}></Spacer>
@@ -137,19 +129,18 @@ export default function Login() {
           <FlexContainer justifyCenter={true}>
             <div style={{ width: '20%' }}>
               <Button variant="contained" color="primary" type="submit" fullWidth={true}>
-                Sign in
+                Sign up
               </Button>
             </div>
           </FlexContainer>
-        </form>
+        </FormGroup>
         <div style={{ flex: 1 }}></div>
         <FlexContainer justifyCenter={true}>
           <h3 style={{ color: '#b8b8b8' }}>Privacy Policy * Terms & Conditions</h3>
         </FlexContainer>
-      </SignInContainer>
-      <DontHaveAccountContainer>
-        <h1 style={{ textAlign: 'center', fontSize: '36px' }}>Hello, Friend!</h1>
-
+      </SignUpContainer>
+      <HasAccountContainer>
+        <h1 style={{ textAlign: 'center', fontSize: '36px' }}>Already registered?</h1>
         <Spacer paddingTop={'15px'}></Spacer>
 
         <FlexContainer justifyCenter={true}>
@@ -160,22 +151,20 @@ export default function Login() {
 
         <FlexContainer justifyCenter={true}>
           <div style={{ width: '70%' }}>
-            <h3 style={{ textAlign: 'center' }}>Fill up personal information and start journey with us</h3>
+            <h3 style={{ textAlign: 'center' }}>If you already have an account, please login and enjoy the app</h3>
           </div>
         </FlexContainer>
 
         <Spacer paddingTop={'30px'}></Spacer>
 
         <FlexContainer justifyCenter={true}>
-          <div style={{ width: '30%' }}>
-            <SignUpButton variant="outlined" color="primary" fullWidth={true} component={Link} to="register">
-              Sign up
-            </SignUpButton>
+          <div style={{ width: '50%' }}>
+            <BackToLoginButton variant="outlined" color="primary" fullWidth={true} component={Link} to="/">
+              Back to login
+            </BackToLoginButton>
           </div>
-
-          {/* <SignUpButton type="secondary" bordered={true} circled={true} fullWidth={true}></SignUpButton> */}
         </FlexContainer>
-      </DontHaveAccountContainer>
-    </LoginCard>
+      </HasAccountContainer>
+    </SignUpCard>
   );
 }

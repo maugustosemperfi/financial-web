@@ -1,19 +1,7 @@
-import Button from '@material-ui/core/Button';
 import styled, { css } from 'styled-components';
+import { Button } from '@material-ui/core';
 
-export const LoginContainer = styled.div`
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  padding: 15px;
-  background: #f2f2f2;
-  font-weight: 600;
-`;
-
-export const LoginCard = styled.div`
+export const SignUpCard = styled.div`
   min-width: 1100px;
   min-height: 600px;
   display: flex;
@@ -21,14 +9,14 @@ export const LoginCard = styled.div`
   background-color: #ffffff;
 `;
 
-export const SignInContainer = styled.div`
+export const SignUpContainer = styled.div`
   min-width: 700px;
   display: flex;
   flex-direction: column;
   padding: 16px;
 `;
 
-export const DontHaveAccountContainer = styled.div`
+export const HasAccountContainer = styled.div`
   min-width: 400px;
   display: flex;
   flex-direction: column;
@@ -44,7 +32,7 @@ export const FlexRowCenteredContainer = styled.div`
   place-content: center;
 `;
 
-export const SignUpButton = styled(Button)`
+export const BackToLoginButton = styled(Button)`
   color: #fff !important;
   background-color: transparent !important;
   border: 1px solid #fff !important;
@@ -57,8 +45,3 @@ export const Spacer = styled.div.attrs(props => ({ paddingTop: props.paddingTop 
       padding-top: ${props.paddingTop};
     `}
 `;
-
-//#18c498
-//#46bb88
-//#1aab69 // LIGHT
-//#0dca78 STRONG
