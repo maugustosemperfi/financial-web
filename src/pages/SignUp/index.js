@@ -1,11 +1,12 @@
-import { Button, Fab, FormControlLabel, FormGroup, TextField, Checkbox } from '@material-ui/core';
+import { Button, Fab, TextField } from '@material-ui/core';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { FaFacebookF, FaGooglePlusG, FaLinkedinIn } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import FlexContainer from 'react-styled-flexbox';
 import * as yup from 'yup';
-import { FlexRowCenteredContainer, HasAccountContainer, SignUpCard, SignUpContainer, Spacer, BackToLoginButton } from './style';
-import { Link } from 'react-router-dom';
+import api from '../../services/api';
+import { BackToLoginButton, FlexRowCenteredContainer, HasAccountContainer, SignUpCard, SignUpContainer, Spacer } from './style';
 
 const signUpFormSchema = yup.object().shape({
   email: yup
@@ -27,8 +28,9 @@ export default function SignUp() {
     validationSchema: signUpFormSchema,
   });
 
-  const signUp = data => {
-    console.log(data);
+  const signUp = async data => {
+    console.log(1);
+    const user = await api.post('users', data).then(res => res.data);
   };
 
   return (
@@ -56,7 +58,7 @@ export default function SignUp() {
           </Fab>
         </FlexRowCenteredContainer>
         <Spacer paddingTop={'30px'}></Spacer>
-        <FormGroup onSubmit={handleSubmit(signUp)}>
+        <form onSubmit={handleSubmit(signUp)}>
           <FlexRowCenteredContainer>
             <div style={{ width: '50%' }}>
               <Controller
@@ -133,7 +135,7 @@ export default function SignUp() {
               </Button>
             </div>
           </FlexContainer>
-        </FormGroup>
+        </form>
         <div style={{ flex: 1 }}></div>
         <FlexContainer justifyCenter={true}>
           <h3 style={{ color: '#b8b8b8' }}>Privacy Policy * Terms & Conditions</h3>

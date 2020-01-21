@@ -5,18 +5,11 @@ import Fab from '@material-ui/core/Fab';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { FaFacebookF, FaGooglePlusG, FaLinkedinIn } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import FlexContainer from 'react-styled-flexbox';
 import * as yup from 'yup';
-import {
-  DontHaveAccountContainer,
-  FlexRowCenteredContainer,
-  LoginCard,
-  LoginContainer,
-  SignInContainer,
-  SignUpButton,
-  Spacer,
-} from './style';
-import { Link } from 'react-router-dom';
+import api from '../../services/api';
+import { DontHaveAccountContainer, FlexRowCenteredContainer, LoginCard, SignInContainer, SignUpButton, Spacer } from './style';
 
 const signInFormSchema = yup.object().shape({
   email: yup
@@ -35,8 +28,8 @@ export default function Login() {
     validationSchema: signInFormSchema,
   });
 
-  const signIn = data => {
-    console.log(data);
+  const signIn = async data => {
+    const token = await api.post('/auth/login', data).then(res => res.data);
   };
 
   return (
@@ -172,8 +165,6 @@ export default function Login() {
               Sign up
             </SignUpButton>
           </div>
-
-          {/* <SignUpButton type="secondary" bordered={true} circled={true} fullWidth={true}></SignUpButton> */}
         </FlexContainer>
       </DontHaveAccountContainer>
     </LoginCard>
