@@ -2,7 +2,7 @@ import { FormControlLabel, TextField } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import Fab from '@material-ui/core/Fab';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { FaFacebookF, FaGooglePlusG, FaLinkedinIn } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
@@ -10,6 +10,7 @@ import FlexContainer from 'react-styled-flexbox';
 import * as yup from 'yup';
 import api from '../../services/api';
 import { DontHaveAccountContainer, FlexRowCenteredContainer, LoginCard, SignInContainer, SignUpButton, Spacer } from './style';
+import { financialContext } from '../../core/context/financial-context';
 
 const signInFormSchema = yup.object().shape({
   email: yup
@@ -27,9 +28,13 @@ export default function Login() {
   const { register, handleSubmit, control, errors } = useForm({
     validationSchema: signInFormSchema,
   });
+  const context = useContext(financialContext);
+  const { dispatch } = context;
 
   const signIn = async data => {
-    const token = await api.post('/auth/login', data).then(res => res.data);
+    const token = await api.post('/auth/login', data).then(res => {
+      dispatch({ type: `[LOGIN] Update User Credentials`, payload: { email: data.email, access_token: res.data.access_token } });
+    });
   };
 
   return (

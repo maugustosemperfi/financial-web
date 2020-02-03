@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { createContext, useReducer } from 'react';
 import './App.css';
 import Routes from './routes';
 import GlobalStyle from './styles/global';
+import { StateProvider } from './core/context/financial-context';
 
 function App() {
   return (
     <>
       <GlobalStyle />
-      <Routes />
+      <StateProvider>
+        <Routes />
+      </StateProvider>
     </>
     // <div className="App">
     //   <header className="App-header">

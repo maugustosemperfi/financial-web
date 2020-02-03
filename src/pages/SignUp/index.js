@@ -1,10 +1,11 @@
 import { Button, Fab, TextField } from '@material-ui/core';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { FaFacebookF, FaGooglePlusG, FaLinkedinIn } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import FlexContainer from 'react-styled-flexbox';
 import * as yup from 'yup';
+import { financialContext } from '../../core/context/financial-context';
 import api from '../../services/api';
 import { BackToLoginButton, FlexRowCenteredContainer, HasAccountContainer, SignUpCard, SignUpContainer, Spacer } from './style';
 
@@ -27,9 +28,11 @@ export default function SignUp() {
   const { register, handleSubmit, control, errors } = useForm({
     validationSchema: signUpFormSchema,
   });
+  const context = useContext(financialContext);
+  const { dispatch } = context;
 
   const signUp = async data => {
-    console.log(1);
+    console.log(context);
     const user = await api.post('users', data).then(res => res.data);
   };
 
