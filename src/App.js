@@ -6,8 +6,8 @@ import GlobalStyle from './styles/global';
 function App() {
   return (
     <>
-      <Routes />
       <GlobalStyle />
+      <Routes />
     </>
     // <div className="App">
     //   <header className="App-header">
