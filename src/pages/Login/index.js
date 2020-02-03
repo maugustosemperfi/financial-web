@@ -5,7 +5,7 @@ import Fab from '@material-ui/core/Fab';
 import React, { useContext } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { FaFacebookF, FaGooglePlusG, FaLinkedinIn } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import FlexContainer from 'react-styled-flexbox';
 import * as yup from 'yup';
 import api from '../../services/api';
@@ -30,11 +30,15 @@ export default function Login() {
   });
   const context = useContext(financialContext);
   const { dispatch } = context;
+  const history = useHistory();
 
   const signIn = async data => {
-    const token = await api.post('/auth/login', data).then(res => {
-      dispatch({ type: `[LOGIN] Update User Credentials`, payload: { email: data.email, access_token: res.data.access_token } });
-    });
+    console.log(context.state);
+    const token = await api.post('/auth/login', data).then(res => res.data.access_token);
+
+    dispatch({ type: `[LOGIN] Update User Credentials`, payload: { email: data.email, token: token } });
+    history.push('/dashboard');
+    console.log(context.state);
   };
 
   return (
