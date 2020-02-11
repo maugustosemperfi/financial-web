@@ -28,6 +28,11 @@ const signInFormSchema = yup.object().shape({
 export default function Login() {
   const { register, handleSubmit, control, errors } = useForm<Auth>({
     validationSchema: signInFormSchema,
+    defaultValues: {
+      email: '',
+      password: '',
+      rememberMe: false
+    }
   });
   const context = useContext(financialContext);
   const { dispatch } = context;
@@ -167,7 +172,7 @@ export default function Login() {
 
         <FlexRowCenteredContainer justifyCenter={true}>
           <div style={{ width: '30%' }}>
-            <SignUpButton variant="outlined" color="primary" fullWidth={true} component={Link} to="register">
+            <SignUpButton variant="outlined" color="primary" fullWidth={true} component={Link} data-testid="signUpButton" to="register">
               Sign up
             </SignUpButton>
           </div>
