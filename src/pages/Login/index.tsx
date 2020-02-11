@@ -6,11 +6,12 @@ import React, { useContext } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { FaFacebookF, FaGooglePlusG, FaLinkedinIn } from 'react-icons/fa';
 import { Link, useHistory } from 'react-router-dom';
-import FlexContainer from 'react-styled-flexbox';
 import * as yup from 'yup';
 import api from '../../services/api';
 import { DontHaveAccountContainer, FlexRowCenteredContainer, LoginCard, SignInContainer, SignUpButton, Spacer } from './style';
 import { financialContext } from '../../core/context/financial-context';
+import { Auth } from '../../core/auth/auth.model';
+import { AuthActions } from '../../core/auth/auth.actions';
 
 const signInFormSchema = yup.object().shape({
   email: yup
@@ -25,20 +26,18 @@ const signInFormSchema = yup.object().shape({
 });
 
 export default function Login() {
-  const { register, handleSubmit, control, errors } = useForm({
+  const { register, handleSubmit, control, errors } = useForm<Auth>({
     validationSchema: signInFormSchema,
   });
   const context = useContext(financialContext);
   const { dispatch } = context;
   const history = useHistory();
 
-  const signIn = async data => {
-    console.log(context.state);
+  const signIn = async (data: any) => {
     const token = await api.post('/auth/login', data).then(res => res.data.access_token);
 
-    dispatch({ type: `[LOGIN] Update User Credentials`, payload: { email: data.email, token: token } });
+    dispatch({ type: AuthActions.LOGIN, payload: { email: data.email, token: token } });
     history.push('/dashboard');
-    console.log(context.state);
   };
 
   return (
@@ -81,7 +80,7 @@ export default function Login() {
                     error={!!errors.email}
                     name="email"
                     label="Email"
-                    ref={register({ required: true })}
+                    inputRef={register({ required: true })}
                     variant="outlined"
                     helperText={errors.email && errors.email.message}
                     fullWidth={true}
@@ -105,9 +104,9 @@ export default function Login() {
                     name="password"
                     label="Password"
                     type="password"
-                    ref={register({ required: true })}
+                    inputRef={register({ required: true })}
                     variant="outlined"
-                    helperText={errors.password && errors.password.message}
+                    helperText={errors.password && errors?.password?.message}
                     fullWidth={true}
                   />
                 }
@@ -120,61 +119,57 @@ export default function Login() {
           <Spacer paddingTop={'15px'}></Spacer>
 
           <FlexRowCenteredContainer>
-            <FlexContainer justifySpaceBetween={true} style={{ width: '50%' }}>
+            <FlexRowCenteredContainer justifySpaceBetween={true} style={{ width: '50%' }}>
               <div>
-                <FormControlLabel
-                  name="rememberMe"
-                  control={<Checkbox checked={register.rememberMe} name="rememberMe" ref={register} label="Remember me" />}
-                  label="Remember me"
-                />
+                <FormControlLabel name="rememberMe" control={<Checkbox name="rememberMe" ref={register} />} label="Remember me" />
                 {/* <Controller as={} control={control} defaultValue={false}></Controller> */}
                 {/* <Checkbox name="rememberMe" ref={register} label="Remember me" onChange={() => } /> */}
               </div>
               <Button>Forgot password?</Button>
-            </FlexContainer>
+            </FlexRowCenteredContainer>
           </FlexRowCenteredContainer>
 
           <Spacer paddingTop={'30px'}></Spacer>
 
-          <FlexContainer justifyCenter={true}>
+          <FlexRowCenteredContainer justifyCenter={true}>
             <div style={{ width: '20%' }}>
               <Button variant="contained" color="primary" type="submit" fullWidth={true}>
                 Sign in
               </Button>
             </div>
-          </FlexContainer>
+          </FlexRowCenteredContainer>
         </form>
         <div style={{ flex: 1 }}></div>
-        <FlexContainer justifyCenter={true}>
+        <FlexRowCenteredContainer justifyCenter={true}>
           <h3 style={{ color: '#b8b8b8' }}>Privacy Policy * Terms & Conditions</h3>
-        </FlexContainer>
+        </FlexRowCenteredContainer>
       </SignInContainer>
       <DontHaveAccountContainer>
         <h1 style={{ textAlign: 'center', fontSize: '36px' }}>Hello, Friend!</h1>
 
         <Spacer paddingTop={'15px'}></Spacer>
 
-        <FlexContainer justifyCenter={true}>
+        <FlexRowCenteredContainer justifyCenter={true}>
           <hr style={{ backgroundColor: '#ffffff', height: '3px', width: '50px', border: 0, borderRadius: '10px' }}></hr>
-        </FlexContainer>
+        </FlexRowCenteredContainer>
 
         <Spacer paddingTop={'15px'}></Spacer>
 
-        <FlexContainer justifyCenter={true}>
+        <FlexRowCenteredContainer justifyCenter={true}>
           <div style={{ width: '70%' }}>
             <h3 style={{ textAlign: 'center' }}>Fill up personal information and start journey with us</h3>
           </div>
-        </FlexContainer>
+        </FlexRowCenteredContainer>
 
         <Spacer paddingTop={'30px'}></Spacer>
 
-        <FlexContainer justifyCenter={true}>
+        <FlexRowCenteredContainer justifyCenter={true}>
           <div style={{ width: '30%' }}>
             <SignUpButton variant="outlined" color="primary" fullWidth={true} component={Link} to="register">
               Sign up
             </SignUpButton>
           </div>
-        </FlexContainer>
+        </FlexRowCenteredContainer>
       </DontHaveAccountContainer>
     </LoginCard>
   );
