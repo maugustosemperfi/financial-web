@@ -71,7 +71,7 @@ export default function Login() {
 
         <Spacer paddingTop={'30px'}></Spacer>
 
-        <form onSubmit={handleSubmit(signIn)}>
+        <form data-testid="form" onSubmit={handleSubmit(signIn)}>
           <FlexRowCenteredContainer>
             <div style={{ width: '50%' }}>
               <Controller
@@ -84,6 +84,7 @@ export default function Login() {
                     variant="outlined"
                     helperText={errors.email && errors.email.message}
                     fullWidth={true}
+                    inputProps={{ 'data-testid': 'loginInput' }}
                   />
                 }
                 name="email"
@@ -108,6 +109,7 @@ export default function Login() {
                     variant="outlined"
                     helperText={errors.password && errors?.password?.message}
                     fullWidth={true}
+                    inputProps={{ 'data-testid': 'passwordInput' }}
                   />
                 }
                 name="password"
@@ -133,7 +135,7 @@ export default function Login() {
 
           <FlexRowCenteredContainer justifyCenter={true}>
             <div style={{ width: '20%' }}>
-              <Button variant="contained" color="primary" type="submit" fullWidth={true}>
+              <Button variant="contained" color="primary" type="submit" data-testid="signIn" fullWidth={true}>
                 Sign in
               </Button>
             </div>
